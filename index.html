@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Interest Calculation</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f8f9fa;
+    }
+    .container {
+        width: 90%;
+        max-width: 500px;
+        background-color: #ffffff;
+        border: 1px solid #dee2e6;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+    .header {
+        text-align: center;
+        font-weight: bold;
+        color: purple;
+    }
+    .input-row, .result-row, .conclusion {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0;
+    }
+    .input-row input, .result-row input {
+        width: 60%;
+        padding: 5px;
+    }
+    .input-row div, .result-row div, .conclusion div {
+        width: 35%;
+    }
+    .form-control {
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: #80bdff;
+    }
+    .form-group {
+        margin: 10px 0;
+    }
+    .red-bg {
+        background-color: #ffcccc;
+    }
+    .yellow-bg {
+        background-color: #fff3cd;
+        text-align: center;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .result-row {
+        align-items: center;
+    }
+    .button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+    .button:focus {
+        outline: none;
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">Tính lãi suất theo ngày (trường hợp người vay đã trả hết tiền gốc)</div>
+    
+    <div class="form-group input-row">
+        <div>Người cho vay (ghi họ tên)</div>
+        <input type="text" class="form-control red-bg" id="nguoi-cho-vay">
+    </div>
+    
+    <div class="form-group input-row">
+        <div>Người vay (ghi họ tên)</div>
+        <input type="text" class="form-control red-bg" id="nguoi-vay">
+    </div>
+    
+    <div class="form-group input-row">
+        <div>Số tiền thỏa thuận vay</div>
+        <input type="number" class="form-control red-bg" id="so-tien-vay">
+    </div>
+    
+    <div class="form-group input-row">
+        <div>Ngày bắt đầu vay</div>
+        <input type="date" class="form-control red-bg" id="ngay-bat-dau">
+    </div>
+    
+    <div class="form-group input-row">
+        <div>Ngày kết thúc vay</div>
+        <input type="date" class="form-control red-bg" id="ngay-ket-thuc">
+    </div>
+    
+    <div class="form-group input-row">
+        <div>Tiền lãi cắt trước là</div>
+        <input type="number" class="form-control red-bg" id="tien-lai-cat-truoc">
+    </div>
+    
+    <div class="form-group input-row">
+        <div>Người vay thực nhận số tiền là</div>
+        <input type="number" class="form-control yellow-bg" id="so-tien-thuc-nhan" disabled>
+    </div>
+    
+    <div class="form-group input-row">
+        <div>Người vay đã trả tiền gốc và tiền lãi là</div>
+        <input type="number" class="form-control yellow-bg" id="so-tien-da-tra" disabled>
+    </div>
+    
+    <div class="header">KẾT QUẢ</div>
+    
+    <div class="result-row yellow-bg">
+        <div>Lãi suất của khoản vay là</div>
+        <div>
+            <div>Theo năm: <span id="lai-suat-nam">0 %/1 năm</span></div>
+            <div>Theo ngày: <span id="lai-suat-ngay">0 đồng/1 triệu/1 ngày</span></div>
+        </div>
+    </div>
+    
+    <div class="result-row yellow-bg">
+        <div>Gấp số lần so với lãi suất cao nhất theo quy định là</div>
+        <div><span id="so-lan-lai-suat">0</span> lần</div>
+    </div>
+    
+    <div class="result-row yellow-bg">
+        <div>Số ngày đã vay là</div>
+        <div><span id="so-ngay-vay">0</span> ngày</div>
+    </div>
+    
+    <div class="result-row yellow-bg">
+        <div>Số tiền thu lợi bất chính</div>
+        <div><span id="thu-loi-bat-chinh">0</span> đồng</div>
+    </div>
+    
+    <button class="button" onclick="calculate()">Tính toán</button>
+    
+    <div class="header">KẾT LUẬN</div>
+    <div class="conclusion yellow-bg" id="ket-luan">...</div>
+</div>
+
+<script>
+    function calculate() {
+        const soTienVay = parseFloat(document.getElementById('so-tien-vay').value);
+        const ngayBatDau = new Date(document.getElementById('ngay-bat-dau').value);
+        const ngayKetThuc = new Date(document.getElementById('ngay-ket-thuc').value);
+        const tienLaiCatTruoc = parseFloat(document.getElementById('tien-lai-cat-truoc').value);
+
+        const soTienThucNhan = soTienVay - tienLaiCatTruoc;
+        const soTienDaTra = soTienVay;
+
+        document.getElementById('so-tien-thuc-nhan').value = soTienThucNhan;
+        document.getElementById('so-tien-da-tra').value = soTienDaTra;
+
+        const soNgayVay = Math.ceil((ngayKetThuc - ngayBatDau) / (1000 * 60 * 60 * 24)) + 1;
+        document.getElementById('so-ngay-vay').textContent = soNgayVay;
+
+        const laiSuatNam = ((soTienDaTra - soTienThucNhan) / soTienVay) * 100 / soNgayVay * 365;
+        const laiSuatNgay = ((soTienDaTra - soTienThucNhan) / soTienVay) * 1000000 / soNgayVay;
+
+        document.getElementById('lai-suat-nam').textContent = laiSuatNam.toFixed(2) + ' %/1 năm';
+        document.getElementById('lai-suat-ngay').textContent = laiSuatNgay.toFixed(2) + ' đồng/1 triệu/1 ngày';
+
+        const soLanLaiSuat = laiSuatNam / 20;
+        document.getElementById('so-lan-lai-suat').textContent = soLanLaiSuat.toFixed(2);
+
+        const ketQuaLaiSuat = soLanLaiSuat > 5 ? "Cấu thành tội cho vay lãi nặng trong giao dịch dân sự (gấp 5 lần lãi suất cao nhất theo quy định pháp luật)" : "Chưa cấu thành tội danh cho vay lãi nặng trong giao dịch dân sự";
+        document.getElementById('ket-luan').textContent = ketQuaLaiSuat;
+
+        const thuLoiBatChinh = soTienThucNhan * soNgayVay * (laiSuatNgay - 550) / 1000000;
+        document.getElementById('thu-loi-bat-chinh').textContent = thuLoiBatChinh.toFixed(0);
+
+        const ketLuan = `Ngày ${ngayBatDau.toLocaleDateString()}, B vay của A số tiền là ${soTienVay.toLocaleString()} đồng. A đã cắt tiền lãi trước là ${tienLaiCatTruoc.toLocaleString()} đồng. B đã nhận số tiền vay là ${soTienThucNhan.toLocaleString()} đồng, vay từ ngày ${ngayBatDau.toLocaleDateString()} đến ngày ${ngayKetThuc.toLocaleDateString()} (${soNgayVay} ngày). B đã trả toàn bộ số tiền gốc và tiền lãi
