@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tính lãi suất theo ngày</title>
+    <title><strong>Tính lãi suất theo ngày</strong></title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -87,11 +87,13 @@
                 <td><input type="date" id="ngayketthuc" oninput="calculate()"></td>
             </tr>
             <tr>
-                <th>Tiền lãi đã trả</th>
+                <th>Tiền lãi đã trả <br>
+(Tính trên số ngày đã vay)</th>
                 <td><input type="number" id="tongtienlai" oninput="calculate()"></td>
             </tr>
             <tr>
-                <th>Tiền gốc + lãi đã trả</th>
+                <th>Người vay đã trả <br>
+tiền gốc và lãi:</th>
                 <td><span id="tongtientralai"></span></td>
             </tr>
         </table>
@@ -110,12 +112,13 @@
                 <td class="highlight"><span id="laisuattheongay"></span></td>
             </tr>
             <tr>
-                <td>Lãi suất gấp số lần so với mức cao nhất quy định</td>
+                <td>Lãi suất gấp số lần so với <br> 
+mức cao nhất quy định</td>
                 <td class="highlight"><span id="gapsolan"></span></td>
                 <td colspan="2" class="highlight" style="text-align: center;"><span id="hanhvi"></span></td>
             </tr>
             <tr>
-                <td>Số ngày đã vay</td>
+                <td>Số ngày đã vay là</td>
                 <td class="highlight"><span id="songayvay"></span></td>
                 <td colspan="2" class="highlight" style="text-align: center;"></td>
             </tr>
@@ -149,8 +152,8 @@
             document.getElementById('tongtientralai').innerText = tongtientralai.toLocaleString('vi-VN');
 
             const laisuattheonam = (tongtienlai / sotienthoathuan * 360 / diffDays * 100).toFixed(2);
-            const laisuattheothang = (tongtienlai / sotienthoathuan * 30 / diffDays * 10).toFixed(2);
-            const laisuattheongay = (tongtienlai / sotienthoathuan / diffDays * 10000000).toFixed(2) + "đ/1 triệu";
+            const laisuattheothang = (tongtienlai / sotienthoathuan * 30 / diffDays * 100).toFixed(2);
+            const laisuattheongay = (tongtienlai / sotienthoathuan / diffDays * 100 * 10000).toFixed(2) + "đ/1 triệu/1 ngày";
 
             document.getElementById('laisuattheonam').innerText = laisuattheonam;
             document.getElementById('laisuattheothang').innerText = laisuattheothang;
@@ -165,7 +168,7 @@
             const tienThuLoi = sotienthoathuan * diffDays * ((tongtienlai / diffDays / sotienthoathuan * 1000000) - 550) / 1000000;
             document.getElementById('thuongloibatnhin').innerText = tienThuLoi.toLocaleString('vi-VN');
 
-            document.getElementById('ketluan').innerText = `Ngày ${new Date(ngaybatdau).toLocaleDateString('vi-VN')}, ${nguoivay} vay của ${nguoichovay} số tiền là ${sotienthoathuan.toLocaleString('vi-VN')} đồng. ${nguoivay} tiền lãi phải trả theo thỏa thuận là ${tongtienlai.toLocaleString('vi-VN')} đồng. ${nguoivay} đã thực nhận số tiền vay là ${sotienthoathuan.toLocaleString('vi-VN')} đồng, vay từ ngày ${new Date(ngaybatdau).toLocaleDateString('vi-VN')} đến ngày ${new Date(ngayketthuc).toLocaleDateString('vi-VN')}. ${nguoivay} đã hoặc phải trả toàn bộ số tiền gốc và tiền lãi cho ${nguoichovay} là ${tongtientralai.toLocaleString('vi-VN')} đồng. Lãi suất tính theo năm là: ${tongtienlai.toLocaleString('vi-VN')} đồng/${sotienthoathuan.toLocaleString('vi-VN')} đồng x 100%/${diffDays} ngày x 365 ngày = ${laisuattheonam}%/năm, gấp ${gapsolan} lần mức lãi suất cao nhất quy định trong Bộ luật dân sự (là 20%/1năm); Số tiền lãi tính theo ngày trên 1 triệu đồng = ${laisuattheonam}%/năm/365 x 1.000.000 đồng = ${laisuattheongay}; Số tiền thu lợi bất chính = ${sotienthoathuan.toLocaleString('vi-VN')} đồng x ${diffDays} ngày x (${(tongtienlai / diffDays / sotienthoathuan * 1000000).toFixed(2)} đồng – 550 đồng)/1.000.000 đồng = ${tienThuLoi.toLocaleString('vi-VN')} đồng`;
+            document.getElementById('ketluan').innerText = `Ngày ${new Date(ngaybatdau).toLocaleDateString('vi-VN')}, ${nguoivay} vay của ${nguoichovay} số tiền là ${sotienthoathuan.toLocaleString('vi-VN')} đồng. ${nguoivay} tiền lãi phải trả theo thỏa thuận là ${tongtienlai.toLocaleString('vi-VN')} đồng. ${nguoivay} đã thực nhận số tiền vay là ${sotienthoathuan.toLocaleString('vi-VN')} đồng, vay từ ngày ${new Date(ngaybatdau).toLocaleDateString('vi-VN')} đến ngày ${new Date(ngayketthuc).toLocaleDateString('vi-VN')}. ${nguoivay} đã hoặc phải trả toàn bộ số tiền gốc và tiền lãi cho ${nguoichovay} là ${tongtientralai.toLocaleString('vi-VN')} đồng. Lãi suất tính theo năm là: ${tongtienlai.toLocaleString('vi-VN')} đồng/${sotienthoathuan.toLocaleString('vi-VN')} đồng x 100%/${diffDays} ngày x 365 ngày = ${laisuattheonam}%/năm, gấp ${gapsolan} lần mức lãi suất cao nhất quy định trong Bộ luật dân sự (là 20%/1năm); Số tiền theo ngày tính trên 1 triệu đồng = ${laisuattheonam}%/năm/365 x 1.000.000 đồng = ${laisuattheongay}; Số tiền thu lợi bất chính = ${sotienthoathuan.toLocaleString('vi-VN')} đồng x ${diffDays} ngày x (${(tongtienlai / diffDays / sotienthoathuan * 1000000).toFixed(2)} đồng – 550 đồng)/1.000.000 đồng = ${tienThuLoi.toLocaleString('vi-VN')} đồng`;
         }
     </script>
 </body>
