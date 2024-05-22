@@ -2,141 +2,171 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tính lãi suất theo ngày</title>
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f0f5;
+            padding: 20px;
         }
-        table, th, td {
-            border: 1px solid black;
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .header {
+            font-size: 1.2em;
+            color: #333;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
         th, td {
-            padding: 8px;
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #f8f8f8;
+            font-weight: bold;
+            color: #333;
+        }
+        .result-table td {
+            background-color: #f9f9f9;
+        }
+        .result-table td:nth-child(1) {
+            background-color: #ffe082;
+        }
+        .result-table td:nth-child(2) {
+            background-color: #ffecb3;
+        }
+        .result-table td:nth-child(3) {
+            background-color: #fff8e1;
         }
         .highlight {
-            background-color: #ffff99;
+            background-color: #ffeb3b;
+            font-weight: bold;
         }
-        .header {
-            background-color: #ff9999;
+        .conclusion {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
         }
     </style>
-    <script>
-        function calculate() {
-            const lender = document.getElementById('lender').value;
-            const borrower = document.getElementById('borrower').value;
-            const principal = parseFloat(document.getElementById('principal').value.replace(/,/g, ''));
-            const startDate = new Date(document.getElementById('startDate').value);
-            const endDate = new Date(document.getElementById('endDate').value);
-            const interestPaid = parseFloat(document.getElementById('interestPaid').value.replace(/,/g, ''));
-            const totalPaid = principal + interestPaid;
-
-            const daysBorrowed = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
-            const annualRate = (interestPaid / daysBorrowed) * 360 / principal * 100;
-            const monthlyRate = (interestPaid / daysBorrowed) * 30 / principal * 100;
-            const dailyRate = (interestPaid / daysBorrowed / principal * 1000000).toFixed(3);
-
-            const multiple = annualRate / 20;
-            const excessiveInterest = multiple > 5;
-
-            const illegalProfit = principal * daysBorrowed * ((interestPaid / daysBorrowed / principal * 1000000 - 550) / 1000000);
-            const illegalProfitStatus = illegalProfit > 30000000;
-
-            document.getElementById('totalPaid').innerText = totalPaid.toLocaleString('vi-VN') + ' đồng';
-            document.getElementById('annualRate').innerText = annualRate.toFixed(2) + '%';
-            document.getElementById('monthlyRate').innerText = monthlyRate.toFixed(2) + '%';
-            document.getElementById('dailyRate').innerText = dailyRate + ' đ/1 triệu';
-
-            document.getElementById('multiple').innerText = multiple.toFixed(2);
-            document.getElementById('excessiveInterest').innerText = excessiveInterest ? 'Cấu thành hành vi lấy lãi gấp 5 lần lãi suất cao nhất theo quy định pháp luật' : 'Chưa cấu thành hành vi lấy lãi cao hơn 5 lần lãi suất cao nhất theo quy định pháp luật';
-            document.getElementById('daysBorrowed').innerText = daysBorrowed;
-            document.getElementById('illegalProfit').innerText = illegalProfit.toLocaleString('vi-VN') + ' đồng';
-            document.getElementById('illegalProfitStatus').innerText = illegalProfitStatus ? 'đủ cấu thành hành vi thu lời bất chính trên 30 triệu đồng' : 'không đủ cấu thành hành vi thu lời bất chính trên 30 triệu đồng';
-
-            document.getElementById('conclusion').innerText = "Ngày " + startDate.toLocaleDateString('vi-VN') + ", " + borrower + " vay của " + lender + " số tiền là " + principal.toLocaleString('vi-VN') + " đồng. Tiền lãi phải trả theo thỏa thuận là " + interestPaid.toLocaleString('vi-VN') + " đồng. " + borrower + " đã nhận số tiền vay là " + principal.toLocaleString('vi-VN') + " đồng, vay từ ngày " + startDate.toLocaleDateString('vi-VN') + " đến ngày " + endDate.toLocaleDateString('vi-VN') + ". " + borrower + " đã trả hoặc phải trả toàn bộ số tiền gốc và tiền lãi cho " + lender + " là " + totalPaid.toLocaleString('vi-VN') + " đồng. Lãi suất của khoản vay là: " + annualRate.toFixed(2) + " đồng/" + principal.toLocaleString('vi-VN') + " đồng x 100%/" + daysBorrowed + " ngày x 365 ngày = " + annualRate.toFixed(2) + "%/năm, gấp " + multiple.toFixed(2) + " lần mức lãi suất cao nhất quy định trong Bộ luật dân sự là 20%/năm; Số tiền lãi/1.000.000 đồng/ngày = " + dailyRate + " đồng/1.000.000 đồng/ngày; Số tiền thu lợi bất chính = " + illegalProfit.toLocaleString('vi-VN') + " đồng x " + daysBorrowed + " ngày x (" + dailyRate + " đồng – 550 đồng)/1.000.000 đồng = " + illegalProfit.toLocaleString('vi-VN') + " đồng";
-        }
-    </script>
 </head>
 <body>
+    <div class="container">
+        <div class="header">Tính lãi suất theo ngày (trường hợp người vay đã trả hết tiền gốc)</div>
+        <table>
+            <tr>
+                <th>Người cho vay (ghi họ tên)</th>
+                <td><input type="text" id="nguoichovay" oninput="calculate()"></td>
+            </tr>
+            <tr>
+                <th>Người vay (ghi họ tên)</th>
+                <td><input type="text" id="nguoivay" oninput="calculate()"></td>
+            </tr>
+            <tr>
+                <th>Số tiền thỏa thuận vay</th>
+                <td><input type="number" id="sotienthoathuan" oninput="calculate()"></td>
+            </tr>
+            <tr>
+                <th>Ngày bắt đầu vay</th>
+                <td><input type="date" id="ngaybatdau" oninput="calculate()"></td>
+            </tr>
+            <tr>
+                <th>Ngày kết thúc vay</th>
+                <td><input type="date" id="ngayketthuc" oninput="calculate()"></td>
+            </tr>
+            <tr>
+                <th>Tổng tiền lãi đã trả</th>
+                <td><input type="number" id="tongtienlai" oninput="calculate()"></td>
+            </tr>
+            <tr>
+                <th>Tổng số tiền đã trả cả gốc và lãi</th>
+                <td><span id="tongtientralai"></span></td>
+            </tr>
+        </table>
 
-<table>
-    <tr class="header">
-        <th colspan="4">Tính lãi suất theo ngày (trường hợp người vay đã trả hết tiền gốc)</th>
-    </tr>
-    <tr>
-        <td>Người cho vay (ghi họ tên)</td>
-        <td><input type="text" id="lender"></td>
-        <td>Người vay (ghi họ tên)</td>
-        <td><input type="text" id="borrower"></td>
-    </tr>
-    <tr>
-        <td>Số tiền thỏa thuận vay</td>
-        <td colspan="3"><input type="text" id="principal" placeholder="Nhập số tiền" onblur="this.value=parseFloat(this.value.replace(/,/g, '')).toLocaleString('vi-VN')"></td>
-    </tr>
-    <tr>
-        <td>Ngày bắt đầu vay</td>
-        <td colspan="3"><input type="date" id="startDate"></td>
-    </tr>
-    <tr>
-        <td>Ngày kết thúc vay</td>
-        <td colspan="3"><input type="date" id="endDate"></td>
-    </tr>
-    <tr>
-        <td>Tổng tiền lãi đã trả</td>
-        <td colspan="3"><input type="text" id="interestPaid" placeholder="Nhập số tiền" onblur="this.value=parseFloat(this.value.replace(/,/g, '')).toLocaleString('vi-VN')"></td>
-    </tr>
-    <tr class="highlight">
-        <td>Tổng số tiền đã trả tiền gốc và tiền lãi là</td>
-        <td colspan="3" id="totalPaid"></td>
-    </tr>
-    <tr>
-        <th colspan="4">KẾT QUẢ</th>
-    </tr>
-    <tr>
-        <td>Lãi suất của khoản vay là</td>
-        <td>Theo năm (%)</td>
-        <td>Theo tháng (%)</td>
-        <td>Theo ngày</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td id="annualRate"></td>
-        <td id="monthlyRate"></td>
-        <td id="dailyRate"></td>
-    </tr>
-    <tr>
-        <td>Gấp số lần so với lãi suất cao nhất theo quy định là</td>
-        <td colspan="3" id="multiple"></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td colspan="3" id="excessiveInterest"></td>
-    </tr>
-    <tr>
-        <td>Số ngày đã vay là</td>
-        <td colspan="3" id="daysBorrowed"></td>
-    </tr>
-    <tr>
-        <td>Số tiền thu lợi bất chính</td>
-        <td colspan="3" id="illegalProfit"></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td colspan="3" id="illegalProfitStatus"></td>
-    </tr>
-    <tr>
-        <th colspan="4">KẾT LUẬN</th>
-    </tr>
-    <tr>
-        <td colspan="4" id="conclusion"></td>
-    </tr>
-</table>
+        <table class="result-table" style="margin-top: 20px;">
+            <tr>
+                <th></th>
+                <th>Theo năm (%)</th>
+                <th>Theo tháng (%)</th>
+                <th>Theo ngày</th>
+            </tr>
+            <tr>
+                <td>Lãi suất của khoản vay là</td>
+                <td class="highlight"><span id="laisuattheonam"></span></td>
+                <td class="highlight"><span id="laisuattheothang"></span></td>
+                <td class="highlight"><span id="laisuattheongay"></span></td>
+            </tr>
+            <tr>
+                <td>Gấp số lần so với lãi suất cao nhất theo quy định là</td>
+                <td class="highlight"><span id="gapsolan"></span></td>
+                <td colspan="2" class="highlight" style="text-align: center;"><span id="hanhvi"></span></td>
+            </tr>
+            <tr>
+                <td>Số ngày đã vay là</td>
+                <td class="highlight"><span id="songayvay"></span></td>
+                <td colspan="2" class="highlight" style="text-align: center;"></td>
+            </tr>
+            <tr>
+                <td>Số tiền thu lợi bất chính</td>
+                <td colspan="3" class="highlight" style="text-align: center;"><span id="thuongloibatnhin"></span></td>
+            </tr>
+        </table>
 
-<button onclick="calculate()">Tính toán</button>
+        <div class="conclusion">
+            <strong>KẾT LUẬN</strong><br>
+            <span id="ketluan"></span>
+        </div>
+    </div>
 
+    <script>
+        function calculate() {
+            const nguoichovay = document.getElementById('nguoichovay').value;
+            const nguoivay = document.getElementById('nguoivay').value;
+            const sotienthoathuan = parseFloat(document.getElementById('sotienthoathuan').value) || 0;
+            const ngaybatdau = document.getElementById('ngaybatdau').value;
+            const ngayketthuc = document.getElementById('ngayketthuc').value;
+            const tongtienlai = parseFloat(document.getElementById('tongtienlai').value) || 0;
+
+            const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+            const firstDate = new Date(ngaybatdau);
+            const secondDate = new Date(ngayketthuc);
+            const diffDays = Math.round(Math.abs((secondDate - firstDate) / oneDay)) + 1;
+
+            const tongtientralai = sotienthoathuan + tongtienlai;
+            document.getElementById('tongtientralai').innerText = tongtientralai.toLocaleString('vi-VN');
+
+            const laisuattheonam = (tongtienlai / sotienthoathuan * 360 / diffDays * 100).toFixed(2);
+            const laisuattheothang = (tongtienlai / sotienthoathuan * 30 / diffDays * 10).toFixed(2);
+            const laisuattheongay = (tongtienlai / sotienthoathuan / diffDays * 1000000).toFixed(2) + "đ/1 triệu";
+
+            document.getElementById('laisuattheonam').innerText = laisuattheonam;
+            document.getElementById('laisuattheothang').innerText = laisuattheothang;
+            document.getElementById('laisuattheongay').innerText = laisuattheongay;
+
+            const gapsolan = (laisuattheonam / 20).toFixed(2);
+            document.getElementById('gapsolan').innerText = gapsolan;
+            document.getElementById('hanhvi').innerText = gapsolan > 5 ? "Cấu thành hành vi lấy lãi gấp 5 lần lãi suất cao nhất theo quy định pháp luật" : "Chưa cấu thành hành vi lấy lãi cao hơn 5 lần lãi suất cao nhất theo quy định pháp luật";
+
+            document.getElementById('songayvay').innerText = diffDays;
+
+            const tienThuLoi = sotienthoathuan * diffDays * ((tongtienlai / diffDays / sotienthoathuan * 1000000) - 550) / 1000000;
+            document.getElementById('thuongloibatnhin').innerText = tienThuLoi.toLocaleString('vi-VN');
+
+            document.getElementById('ketluan').innerText = `Ngày ${new Date(ngaybatdau).toLocaleDateString('vi-VN')}, ${nguoivay} vay của ${nguoichovay} số tiền là ${sotienthoathuan.toLocaleString('vi-VN')} đồng. ${nguoivay} tiền lãi phải trả theo thỏa thuận là ${tongtienlai.toLocaleString('vi-VN')} đồng. ${nguoivay} đã thực nhận số tiền vay là ${sotienthoathuan.toLocaleString('vi-VN')} đồng, vay từ ngày ${new Date(ngaybatdau).toLocaleDateString('vi-VN')} đến ngày ${new Date(ngayketthuc).toLocaleDateString('vi-VN')}. ${nguoivay} đã hoặc phải trả toàn bộ số tiền gốc và tiền lãi cho ${nguoichovay} là ${tongtientralai.toLocaleString('vi-VN')} đồng. Lãi suất tính theo năm là: ${tongtienlai.toLocaleString('vi-VN')} đồng/${sotienthoathuan.toLocaleString('vi-VN')} đồng x 100%/${diffDays} ngày x 365 ngày = ${laisuattheonam}%/năm, gấp ${gapsolan} lần mức lãi suất cao nhất quy định trong Bộ luật dân sự (là 20%/1năm); Số tiền lãi tính theo ngày trên 1 triệu đồng = ${laisuattheonam}%/năm/365 x 1.000.000 đồng = ${laisuattheongay}; Số tiền thu lợi bất chính = ${sotienthoathuan.toLocaleString('vi-VN')} đồng x ${diffDays} ngày x (${(tongtienlai / diffDays / sotienthoathuan * 1000000).toFixed(2)} đồng – 550 đồng)/1.000.000 đồng = ${tienThuLoi.toLocaleString('vi-VN')} đồng`;
+        }
+    </script>
 </body>
 </html>
