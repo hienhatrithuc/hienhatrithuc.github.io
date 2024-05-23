@@ -8,30 +8,32 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #f0f0f5;
-            padding: 6px;
+            padding: 10px;
+            font-size: 14px; /* Giảm kích thước font chữ */
         }
         .container {
             background-color: white;
-            border-radius: 6px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 6px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
         }
         .header {
             font-size: 1em;
             color: #333;
             text-align: center;
-            padding-bottom: 6px;
+            padding-bottom: 10px;
             border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 6px;
+            margin-bottom: 10px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
         }
         th, td {
-            padding: 6px 8px;
+            padding: 6px 10px; /* Giảm padding để tiết kiệm không gian */
             border: 1px solid #e0e0e0;
             text-align: left;
+            font-size: 12px; /* Giảm kích thước font chữ trong bảng */
         }
         th {
             background-color: #f8f8f8;
@@ -56,9 +58,23 @@
         }
         .conclusion {
             background-color: #e3f2fd;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="number"], input[type="date"] {
+            width: 100%;
             padding: 6px;
-            border-radius: 6px;
-            margin-top: 6px;
+            box-sizing: border-box;
+            font-size: 12px; /* Giảm kích thước font chữ trong input */
+        }
+        @media (max-width: 600px) {
+            .header, th, td {
+                font-size: 12px; /* Điều chỉnh kích thước font chữ cho màn hình nhỏ */
+            }
+            input[type="text"], input[type="number"], input[type="date"] {
+                padding: 4px; /* Giảm padding để tiết kiệm không gian */
+            }
         }
     </style>
 </head>
@@ -87,17 +103,16 @@
                 <td><input type="date" id="ngayketthuc" oninput="calculate()"></td>
             </tr>
             <tr>
-                <th>Tiền lãi đã trả <br>
-(Tính trên số ngày đã vay)</th>
+                <th>Tiền lãi đã trả <br>(Tính trên số ngày đã vay)</th>
                 <td><input type="number" id="tongtienlai" oninput="calculate()"></td>
             </tr>
             <tr>
-                <th>Người vay đã trả tiền gốc và lãi:</th>
+                <th>Người vay đã trả <br>tiền gốc và lãi:</th>
                 <td><span id="tongtientralai"></span></td>
             </tr>
         </table>
 
-        <table class="result-table" style="margin-top: 4px;">
+        <table class="result-table" style="margin-top: 10px;">
             <tr>
                 <th></th>
                 <th>Theo năm (%)</th>
@@ -111,7 +126,7 @@
                 <td class="highlight"><span id="laisuattheongay"></span></td>
             </tr>
             <tr>
-                <td>Lãi suất gấp số lần so với mức cao nhất quy định</td>
+                <td>Lãi suất gấp số lần <br>so với mức cao <br>nhất quy định</td>
                 <td class="highlight"><span id="gapsolan"></span></td>
                 <td colspan="2" class="highlight" style="text-align: center;"><span id="hanhvi"></span></td>
             </tr>
