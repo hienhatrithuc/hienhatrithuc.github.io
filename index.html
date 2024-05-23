@@ -8,28 +8,28 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #f0f0f5;
-            padding: 10px;
+            padding: 6px;
         }
         .container {
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 6px;
         }
         .header {
-            font-size: 1.2em;
+            font-size: 1em;
             color: #333;
             text-align: center;
-            padding-bottom: 10px;
+            padding-bottom: 6px;
             border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
         }
         th, td {
-            padding: 8px 12px;
+            padding: 6px 8px;
             border: 1px solid #e0e0e0;
             text-align: left;
         }
@@ -56,9 +56,9 @@
         }
         .conclusion {
             background-color: #e3f2fd;
-            padding: 10px;
-            border-radius: 10px;
-            margin-top: 10px;
+            padding: 6px;
+            border-radius: 6px;
+            margin-top: 6px;
         }
     </style>
 </head>
@@ -92,13 +92,12 @@
                 <td><input type="number" id="tongtienlai" oninput="calculate()"></td>
             </tr>
             <tr>
-                <th>Người vay đã trả <br>
-tiền gốc và lãi:</th>
+                <th>Người vay đã trả tiền gốc và lãi:</th>
                 <td><span id="tongtientralai"></span></td>
             </tr>
         </table>
 
-        <table class="result-table" style="margin-top: 10px;">
+        <table class="result-table" style="margin-top: 4px;">
             <tr>
                 <th></th>
                 <th>Theo năm (%)</th>
@@ -112,9 +111,7 @@ tiền gốc và lãi:</th>
                 <td class="highlight"><span id="laisuattheongay"></span></td>
             </tr>
             <tr>
-                <td>Lãi suất gấp số lần <br>
-so với mức cao <br> 
- nhất quy định</td>
+                <td>Lãi suất gấp số lần so với mức cao nhất quy định</td>
                 <td class="highlight"><span id="gapsolan"></span></td>
                 <td colspan="2" class="highlight" style="text-align: center;"><span id="hanhvi"></span></td>
             </tr>
